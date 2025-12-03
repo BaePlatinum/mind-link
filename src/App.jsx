@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { AppStateProvider } from "./context/AppStateContext";
+
+import WelcomeScreen from "./screens/WelcomeScreen";
+import PreMoodScreen from "./screens/PreMoodScreen";
+import FocusSessionScreen from "./screens/FocusSessionScreen";
+import PostMoodScreen from "./screens/PostMoodScreen";
+import DashboardScreen from "./screens/DashboardScreen";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentScreen, setCurrentScreen] = useState("welcome");
+
+  const goTo = (screenName) => {
+    setCurrentScreen(screenName);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <AppStateProvider>
+      {currentScreen === "welcome" && <WelcomeScreen goTo={goTo} />}
+      {currentScreen === "preMood" && <PreMoodScreen goTo={goTo} />}
+      {currentScreen === "focus" && <FocusSessionScreen goTo={goTo} />}
+      {currentScreen === "postMood" && <PostMoodScreen goTo={goTo} />}
+      {currentScreen === "dashboard" && <DashboardScreen goTo={goTo} />}
+    </AppStateProvider>
+  );
 }
 
-export default App
+export default App;
