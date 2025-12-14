@@ -1,31 +1,83 @@
 import { useAppState } from "../context/AppStateContext";
 import { useState } from "react";
+import AppShell from "../components/AppShell";
 
-export default function WelcomeScreen({ goTo }) {
-  const { setUserName, setGoal } = useAppState();
+export default function WelcomeScreen({ goTo, currentScreen }) {
+  const { setUserName, setGoal, setCurrentFocusMinutes, currentFocusMinutes, clearCurrentFlow } =
+    useAppState();
+
   const [name, setNameLocal] = useState("");
   const [goalText, setGoalTextLocal] = useState("");
+  const [touched, setTouched] = useState(false);
+
+  const canStart = name.trim().length > 0 && goalText.trim().length > 0;
+
+  const presets = [
+    { label: "25 min", value: 25, hint: "Pomodoro" },
+    { label: "30 min", value: 30, hint: "Standard" },
+    { label: "50 min", value: 50, hint: "Deep focus" },
+  ];
 
   const start = () => {
-    setUserName(name);
-    setGoal(goalText);
+    setTouched(true);
+    if (!canStart) return;
+
+    clearCurrentFlow?.(); // clean start
+    setUserName(name.trim());
+    setGoal(goalText.trim());
+
     goTo("preMood");
   };
 
   return (
-    <div className="screen">
-      <h1>Mind Link</h1>
-      <input
-        placeholder="Your name"
-        value={name}
-        onChange={(e) => setNameLocal(e.target.value)}
-      />
-      <input
-        placeholder="Study goal"
-        value={goalText}
-        onChange={(e) => setGoalTextLocal(e.target.value)}
-      />
-      <button onClick={start}>Start Focus Session</button>
-    </div>
+    <AppShell currentScreen={currentScreen} title="Mind Link">
+      <div className="screen">
+        <input
+          placeholder="Your name"
+          value={name}
+          onChange={(e) => setNameLocal(e.target.value)}
+          onBlur={() => setTouched(true)}
+        />
+        {touched && name.trim().length === 0 && (
+          <small style={{ color: "#b42318" }}>Name is required.</small>
+        )}
+
+        <input
+          placeholder="Study goal (e.g., Finish chapter 4)"
+          value={goalText}
+          onChange={(e) => setGoalTextLocal(e.target.value)}
+          onBlur={() => setTouched(true)}
+        />
+        {touched && goalText.trim().length === 0 && (
+          <small style={{ color: "#b42318" }}>Goal is required.</small>
+        )}
+
+        {/* ✅ Quick presets */}
+        <div className="info-card">
+          <div className="info-title">Choose session length</div>
+
+          <div className="chip-row">
+            {presets.map((p) => (
+              <button
+                key={p.value}
+                type="button"
+                className={`chip ${currentFocusMinutes === p.value ? "selected" : ""}`}
+                onClick={() => setCurrentFocusMinutes(p.value)}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="preset-note">
+            Selected: <b>{currentFocusMinutes} min</b>
+          </div>
+        </div>
+
+        <button onClick={start} disabled={!canStart}>
+          Start Focus Session
+        </button>
+      </div>
+    </AppShell>
   );
 }

@@ -1,15 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function Timer({ durationMinutes, onComplete }) {
+export default function Timer({ durationMinutes, onComplete, isPaused, addSignal }) {
   const [secondsLeft, setSecondsLeft] = useState(durationMinutes * 60);
+  const doneRef = useRef(false);
 
+  // Reset when duration changes / entering screen
   useEffect(() => {
     setSecondsLeft(durationMinutes * 60);
+    doneRef.current = false;
   }, [durationMinutes]);
 
+  // Add +5 minutes whenever addSignal changes
   useEffect(() => {
+    if (!addSignal) return; // ignore initial 0
+    setSecondsLeft((prev) => prev + 300);
+  }, [addSignal]);
+
+  // Countdown
+  useEffect(() => {
+    if (isPaused) return;
+
     if (secondsLeft <= 0) {
-      onComplete();
+      if (!doneRef.current) {
+        doneRef.current = true;
+        onComplete?.();
+      }
       return;
     }
 
@@ -18,7 +33,7 @@ export default function Timer({ durationMinutes, onComplete }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [secondsLeft, onComplete]);
+  }, [secondsLeft, isPaused, onComplete]);
 
   const format = (s) => {
     const m = Math.floor(s / 60);
@@ -26,9 +41,5 @@ export default function Timer({ durationMinutes, onComplete }) {
     return `${m}:${sec.toString().padStart(2, "0")}`;
   };
 
-  return (
-    <div style={{ textAlign: "center", fontSize: "3rem", marginTop: "40px" }}>
-      {format(secondsLeft)}
-    </div>
-  );
+  return <div className="timer">{format(secondsLeft)}</div>;
 }

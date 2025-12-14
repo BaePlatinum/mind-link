@@ -1,14 +1,19 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AppStateContext = createContext();
 
 export function AppStateProvider({ children }) {
   const [userName, setUserName] = useState("");
   const [goal, setGoal] = useState("");
+
   const [sessions, setSessions] = useState([]);
 
-  const [currentFocusMinutes, setCurrentFocusMinutes] = useState(25);
+  const [preMoodData, setPreMoodData] = useState(null);
+
+  const [currentFocusMinutes, setCurrentFocusMinutes] = useState(30);
   const [currentBreakMinutes, setCurrentBreakMinutes] = useState(5);
+
+  const [distractions, setDistractions] = useState([]);
 
   // Load sessions on startup
   useEffect(() => {
@@ -16,14 +21,37 @@ export function AppStateProvider({ children }) {
     if (saved) setSessions(JSON.parse(saved));
   }, []);
 
-  // Save on change
+  // Save sessions on change
   useEffect(() => {
     localStorage.setItem("sessions", JSON.stringify(sessions));
   }, [sessions]);
 
   const addSession = (sessionObj) => {
-    setSessions((prev) => [...prev, sessionObj]);
+    setSessions((prev) => [sessionObj, ...prev]); // newest first (nicer UX)
   };
+
+  const clearCurrentFlow = () => {
+    setPreMoodData(null);
+    setDistractions([]);
+  };
+
+  // Load profile on startup
+useEffect(() => {
+  const savedName = localStorage.getItem("userName");
+  const savedGoal = localStorage.getItem("goal");
+  if (savedName) setUserName(savedName);
+  if (savedGoal) setGoal(savedGoal);
+}, []);
+
+// Save profile on change
+useEffect(() => {
+  localStorage.setItem("userName", userName);
+}, [userName]);
+
+useEffect(() => {
+  localStorage.setItem("goal", goal);
+}, [goal]);
+
 
   return (
     <AppStateContext.Provider
@@ -32,12 +60,21 @@ export function AppStateProvider({ children }) {
         setUserName,
         goal,
         setGoal,
+
         sessions,
         addSession,
+
+        preMoodData,
+        setPreMoodData,
+        clearCurrentFlow,
+
         currentFocusMinutes,
         setCurrentFocusMinutes,
         currentBreakMinutes,
         setCurrentBreakMinutes,
+
+        distractions,
+        setDistractions,
       }}
     >
       {children}

@@ -9,18 +9,17 @@ import DashboardScreen from "./screens/DashboardScreen";
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState("welcome");
+  const goTo = (screenName) => setCurrentScreen(screenName);
 
-  const goTo = (screenName) => {
-    setCurrentScreen(screenName);
-  };
+  const screenProps = { goTo, currentScreen };
 
   return (
     <AppStateProvider>
-      {currentScreen === "welcome" && <WelcomeScreen goTo={goTo} />}
-      {currentScreen === "preMood" && <PreMoodScreen goTo={goTo} />}
-      {currentScreen === "focus" && <FocusSessionScreen goTo={goTo} />}
-      {currentScreen === "postMood" && <PostMoodScreen goTo={goTo} />}
-      {currentScreen === "dashboard" && <DashboardScreen goTo={goTo} />}
+      {currentScreen === "welcome" && <WelcomeScreen {...screenProps} />}
+      {currentScreen === "preMood" && <PreMoodScreen {...screenProps} />}
+      {currentScreen === "focus" && <FocusSessionScreen {...screenProps} />}
+      {currentScreen === "postMood" && <PostMoodScreen {...screenProps} />}
+      {currentScreen === "dashboard" && <DashboardScreen {...screenProps} />}
     </AppStateProvider>
   );
 }
