@@ -17,13 +17,13 @@ export function AppStateProvider({ children }) {
 
   // Load sessions on startup
   useEffect(() => {
-    const saved = localStorage.getItem("sessions");
+    const saved = sessionStorage.getItem("sessions");
     if (saved) setSessions(JSON.parse(saved));
   }, []);
 
   // Save sessions on change
   useEffect(() => {
-    localStorage.setItem("sessions", JSON.stringify(sessions));
+    sessionStorage.setItem("sessions", JSON.stringify(sessions));
   }, [sessions]);
 
   const addSession = (sessionObj) => {
@@ -37,19 +37,19 @@ export function AppStateProvider({ children }) {
 
   // Load profile on startup
 useEffect(() => {
-  const savedName = localStorage.getItem("userName");
-  const savedGoal = localStorage.getItem("goal");
+  const savedName = sessionStorage.getItem("userName");
+  const savedGoal = sessionStorage.getItem("goal");
   if (savedName) setUserName(savedName);
   if (savedGoal) setGoal(savedGoal);
 }, []);
 
 // Save profile on change
 useEffect(() => {
-  localStorage.setItem("userName", userName);
+  sessionStorage.setItem("userName", userName);
 }, [userName]);
 
 useEffect(() => {
-  localStorage.setItem("goal", goal);
+  sessionStorage.setItem("goal", goal);
 }, [goal]);
 
 

@@ -1,28 +1,44 @@
 import { useAppState } from "../context/AppStateContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppShell from "../components/AppShell";
 
 export default function WelcomeScreen({ goTo, currentScreen }) {
-  const { setUserName, setGoal, setCurrentFocusMinutes, currentFocusMinutes, clearCurrentFlow } =
-    useAppState();
+  const {
+    userName,
+    goal,
+    setUserName,
+    setGoal,
+    setCurrentFocusMinutes,
+    currentFocusMinutes,
+    clearCurrentFlow,
+  } = useAppState();
 
-  const [name, setNameLocal] = useState("");
-  const [goalText, setGoalTextLocal] = useState("");
+  const [name, setNameLocal] = useState(userName || "");
+  const [goalText, setGoalTextLocal] = useState(goal || "");
   const [touched, setTouched] = useState(false);
+
+  // ✅ Sync local inputs when context loads from localStorage
+  useEffect(() => {
+    if (userName) setNameLocal(userName);
+  }, [userName]);
+
+  useEffect(() => {
+    if (goal) setGoalTextLocal(goal);
+  }, [goal]);
 
   const canStart = name.trim().length > 0 && goalText.trim().length > 0;
 
   const presets = [
-    { label: "25 min", value: 25, hint: "Pomodoro" },
-    { label: "30 min", value: 30, hint: "Standard" },
-    { label: "50 min", value: 50, hint: "Deep focus" },
+    { label: "25 min", value: 25 },
+    { label: "30 min", value: 30 },
+    { label: "50 min", value: 50 },
   ];
 
   const start = () => {
     setTouched(true);
     if (!canStart) return;
 
-    clearCurrentFlow?.(); // clean start
+    clearCurrentFlow?.();
     setUserName(name.trim());
     setGoal(goalText.trim());
 
@@ -52,7 +68,6 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
           <small style={{ color: "#b42318" }}>Goal is required.</small>
         )}
 
-        {/* ✅ Quick presets */}
         <div className="info-card">
           <div className="info-title">Choose session length</div>
 

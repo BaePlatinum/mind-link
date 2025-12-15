@@ -350,3 +350,151 @@ input[type="range"]::-webkit-slider-thumb:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* Session list readability */
+.session-meta{
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin: 600px 0;
+}
+
+.session-focus{
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 6px 0 10px 0;
+}
+
+.mood-positive{ color: #2f6df6; }
+.mood-neutral{ color: #6b7280; }
+.mood-negative{ color: #b42318; }
+
+/* Highlight today's sessions */
+.session-card.today{
+  border-left: 4px solid #4d8dff;
+}
+
+/* Tighter spacing inside cards */
+.session-card p{
+  margin: 6px 0;
+}
+
+.session-card{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.session-card p{
+  margin: 0;
+}
+
+
+.session-row{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  align-items:flex-start;
+}
+
+.session-main{
+  flex:1;
+  min-width: 220px;
+}
+
+.session-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:flex-end;
+}
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid #d0d7e2;
+  background:#fff;
+  font-size:0.85rem;
+  font-weight:700;
+  opacity:0.95;
+}
+
+.pill-blue{
+  background:#e8f0ff;
+  border-color:#cfe0ff;
+}
+
+.pill-green{
+  background:#ecfdf3;
+  border-color:#a7f3d0;
+}
+
+.pill-red{
+  background:#fef2f2;
+  border-color:#fecaca;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 140px;
+  padding: 10px 4px 0;
+}
+
+.bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.bar {
+  width: 18px;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(135deg, #4d8dff, #306bff);
+  transition: height 0.3s ease;
+}
+
+.bar-label {
+  font-size: 0.75rem;
+  margin-top: 6px;
+  opacity: 0.75;
+}
+
+.bar-chart{
+  display:flex;
+  align-items:flex-end;
+  gap:12px;
+  height:140px;
+  padding:12px 6px 6px;
+}
+
+.bar-col{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+}
+
+.bar{
+  width:22px;
+  border-radius:10px;
+  background: linear-gradient(135deg, #4d8dff, #306bff);
+  box-shadow: 0 6px 14px rgba(72, 118, 255, 0.25);
+}
+
+.bar-label{
+  font-size:12px;
+  opacity:0.75;
+}
+
+.bar-minutes{
+  font-size:12px;
+  font-weight:700;
+  opacity:0.65;
+}
