@@ -14,13 +14,13 @@ export default function FocusSessionScreen({ goTo, currentScreen }) {
 
   const [confirmEnd, setConfirmEnd] = useState(false);
 
-  // ✅ start paused so timer shows full time first
+  // start paused so timer shows full time first
   const [paused, setPaused] = useState(true);
 
-  // ✅ increments each time you click +5
+  // increments each time you click +5
   const [addSignal, setAddSignal] = useState(0);
 
-  // ✅ tiny feedback when +5 is clicked
+  // tiny feedback when +5 is clicked
   const [justAdded, setJustAdded] = useState(false);
 
   const logDistraction = (type) => {

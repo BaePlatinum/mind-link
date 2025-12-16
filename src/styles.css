@@ -671,7 +671,7 @@ input[type="range"]:active + .range-mid {
 /* Match the same column as inputs/textarea */
 .start-session-wrap{
   width: 100%;
-  display: flex;              /* ✅ forces real centering */
+  display: flex;              /* orces real centering */
   justify-content: center;
   margin-top: 18px;
 }

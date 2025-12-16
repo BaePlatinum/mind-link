@@ -11,16 +11,20 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
     setCurrentFocusMinutes,
     currentFocusMinutes,
     clearCurrentFlow,
+
+    // new: remembered custom minutes
+    lastCustomMinutes,
+    setLastCustomMinutes,
   } = useAppState();
 
   const [name, setNameLocal] = useState(userName || "");
   const [goalText, setGoalTextLocal] = useState(goal || "");
   const [touched, setTouched] = useState(false);
 
-  // ✅ IMPORTANT: start EMPTY so it doesn't show "30"
-  const [customMinutes, setCustomMinutes] = useState("");
+  // Start empty unless we have a remembered custom value
+  const [customMinutes, setCustomMinutes] = useState(lastCustomMinutes || "");
 
-  // ✅ Sync local inputs when context loads
+  // Sync local inputs when context loads
   useEffect(() => {
     if (userName) setNameLocal(userName);
   }, [userName]);
@@ -29,23 +33,37 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
     if (goal) setGoalTextLocal(goal);
   }, [goal]);
 
+  // If lastCustomMinutes changes (from storage load), reflect it
+  useEffect(() => {
+    if (lastCustomMinutes) setCustomMinutes(lastCustomMinutes);
+  }, [lastCustomMinutes]);
+
   const presets = [
     { label: "25 min", value: 25 },
     { label: "30 min", value: 30 },
     { label: "50 min", value: 50 },
   ];
 
-  // ✅ If custom is empty => it's valid (we will use preset/default)
   const minutesNumber = useMemo(() => Number(customMinutes), [customMinutes]);
   const customProvided = customMinutes.trim().length > 0;
-  const customValid =
-    !customProvided ||
-    (Number.isFinite(minutesNumber) && minutesNumber >= 5 && minutesNumber <= 180);
+
+  // validate custom minutes
+  const minutesValid = useMemo(() => {
+    // if custom is empty, treat as valid (we use preset/currentFocusMinutes)
+    if (!customProvided) return true;
+    return Number.isFinite(minutesNumber) && minutesNumber >= 5 && minutesNumber <= 180;
+  }, [customProvided, minutesNumber]);
 
   const canStart =
     name.trim().length > 0 &&
     goalText.trim().length > 0 &&
-    customValid;
+    minutesValid;
+
+  const canContinue =
+    userName?.trim() &&
+    goal?.trim() &&
+    Number.isFinite(currentFocusMinutes) &&
+    currentFocusMinutes >= 5;
 
   const start = () => {
     setTouched(true);
@@ -55,23 +73,49 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
     setUserName(name.trim());
     setGoal(goalText.trim());
 
-    // ✅ Only override focus minutes if user actually typed a custom value
+    // Only override focus minutes if user typed custom minutes
     if (customProvided) {
       setCurrentFocusMinutes(Math.round(minutesNumber));
+      // remember this custom value
+      setLastCustomMinutes(customMinutes);
     }
 
     goTo("preMood");
   };
 
-  // ✅ Enter key starts (only if valid)
   const onKeyDownStart = (e) => {
     if (e.key === "Enter") start();
+  };
+
+  const endTimeLabel = useMemo(() => {
+    // if user typed custom minutes, use that; else use currentFocusMinutes
+    const usedMinutes = customProvided ? minutesNumber : currentFocusMinutes;
+
+    if (!Number.isFinite(usedMinutes) || usedMinutes < 5) return null;
+
+    const end = new Date(Date.now() + usedMinutes * 60000);
+    return end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }, [customProvided, minutesNumber, currentFocusMinutes]);
+
+  const resetAll = () => {
+    setNameLocal("");
+    setGoalTextLocal("");
+    setCustomMinutes("");
+    setTouched(false);
+
+    setUserName("");
+    setGoal("");
+    setCurrentFocusMinutes(30);
+
+    // clear remembered custom minutes too
+    setLastCustomMinutes("");
+
+    clearCurrentFlow?.();
   };
 
   return (
     <AppShell currentScreen={currentScreen} title="Mind Link">
       <div className="screen">
-        {/* ✅ Friendly welcome back */}
         {userName?.trim() ? (
           <div style={{ textAlign: "center", marginBottom: 10, opacity: 0.75 }}>
             Welcome back, <b>{userName}</b> 👋
@@ -112,7 +156,10 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
                 className={`chip ${currentFocusMinutes === p.value ? "selected" : ""}`}
                 onClick={() => {
                   setCurrentFocusMinutes(p.value);
-                  setCustomMinutes(""); // ✅ clicking preset clears custom field
+
+                  // clear ONLY the visible field (optional UX)
+                  // (we still keep lastCustomMinutes remembered)
+                  setCustomMinutes("");
                 }}
               >
                 {p.label}
@@ -132,7 +179,10 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
                 const v = e.target.value.replace(/[^\d]/g, "");
                 setCustomMinutes(v);
 
-                // ✅ live update selection only when valid
+                // remember as they type (even before pressing Start)
+                setLastCustomMinutes(v);
+
+                // live update selection only when valid
                 if (v.length) {
                   const n = Number(v);
                   if (Number.isFinite(n) && n >= 5 && n <= 180) {
@@ -144,7 +194,7 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
               onKeyDown={onKeyDownStart}
             />
 
-            {touched && customProvided && !customValid && (
+            {touched && customProvided && !minutesValid && (
               <small style={{ color: "#b42318" }}>
                 Please enter a number between 5 and 180.
               </small>
@@ -152,9 +202,27 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
           </div>
 
           <div className="preset-note">
-            Selected: <b>{currentFocusMinutes} min</b>
+            Selected: <b>{customProvided ? minutesNumber : currentFocusMinutes} min</b>
           </div>
+
+          {endTimeLabel && (
+            <div className="preset-note" style={{ marginTop: 6 }}>
+              Ends at <b>{endTimeLabel}</b>
+            </div>
+          )}
         </div>
+
+        {canContinue && (
+          <button
+            className="secondary"
+            onClick={() => {
+              clearCurrentFlow?.();
+              goTo("preMood");
+            }}
+          >
+            Continue Last Session
+          </button>
+        )}
 
         <button onClick={start} disabled={!canStart}>
           Start Focus Session
@@ -165,6 +233,10 @@ export default function WelcomeScreen({ goTo, currentScreen }) {
             Fill name + goal (and custom minutes only if you use it).
           </div>
         )}
+
+        <button type="button" className="secondary" onClick={resetAll}>
+          Reset Setup
+        </button>
       </div>
     </AppShell>
   );

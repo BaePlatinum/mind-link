@@ -16,7 +16,7 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
     clearCurrentFlow,
   } = useAppState();
 
-  // ✅ One helper for the emoji label text
+  // One helper for the emoji label text
   const levelText = (v) =>
     v === 1
       ? "😩 very low"
@@ -30,7 +30,7 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
       ? "🔥 very high"
       : "";
 
-  // ✅ Nice: different labels for fatigue (optional but makes sense)
+  // Nice: different labels for fatigue (optional but makes sense)
   const fatigueText = (v) =>
     v === 1
       ? "😌 very low"
@@ -69,7 +69,7 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
       <div className="screen">
         <h2 className="post-title">How do you feel now?</h2>
 
-        {/* ✅ Mood */}
+        {/* Mood */}
         <label className="range-label">
           <span className="range-left">Mood</span>
           <span className="range-mid">{mood}</span>
@@ -84,7 +84,7 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
           onChange={(e) => setMood(Number(e.target.value))}
         />
 
-        {/* ✅ Motivation (FIX: was using mood before) */}
+        {/* Motivation */}
         <label className="range-label">
           <span className="range-left">Motivation</span>
           <span className="range-mid">{motivation}</span>
@@ -99,7 +99,7 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
           onChange={(e) => setMotivation(Number(e.target.value))}
         />
 
-        {/* ✅ Fatigue (FIX: was using mood before) */}
+        {/* Fatigue */}
         <label className="range-label">
           <span className="range-left">Fatigue</span>
           <span className="range-mid">{fatigue}</span>
@@ -114,7 +114,7 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
           onChange={(e) => setFatigue(Number(e.target.value))}
         />
 
-        {/* ✅ Helpful / Not helpful + Finish */}
+        {/* Helpful / Not helpful + Finish */}
         <div className="post-actions">
           <div className="helpful-row">
             <button

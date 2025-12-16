@@ -25,7 +25,7 @@ export default function DashboardScreen({ goTo, currentScreen }) {
   const [sortNewest, setSortNewest] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);
 
-  // ✅ MOVE filteredSessions OUTSIDE of stats useMemo
+  // MOVE filteredSessions OUTSIDE of stats useMemo
   const filteredSessions = useMemo(() => {
     const q = query.trim().toLowerCase();
     let list = [...sessions];
@@ -231,7 +231,7 @@ export default function DashboardScreen({ goTo, currentScreen }) {
           )}
         </div>
 
-        {/* ✅ History Tools (JSX comment fixed) */}
+        {/* History Tools */}
         <div className="info-card">
           <div className="info-title">History tools</div>
 
@@ -307,7 +307,7 @@ export default function DashboardScreen({ goTo, currentScreen }) {
             </div>
           )}
 
-          {/* ✅ Use filteredSessions here */}
+          {/* Use filteredSessions here */}
           {filteredSessions.slice(0, visibleCount).map((s) => {
             const pre = s.preMood?.mood;
             const post = s.postMood?.mood;
@@ -375,7 +375,7 @@ export default function DashboardScreen({ goTo, currentScreen }) {
             );
           })}
 
-          {/* ✅ Show more */}
+          {/* Show more */}
           {filteredSessions.length > visibleCount && (
             <button
               className="secondary"

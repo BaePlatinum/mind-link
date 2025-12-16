@@ -8,7 +8,7 @@ export default function PreMoodScreen({ goTo, currentScreen }) {
   const [fatigue, setFatigue] = useState(3);
   const [note, setNote] = useState("");
 
-  // ✅ validation: user must touch something before starting
+  // validation: user must touch something before starting
   const [touched, setTouched] = useState({
     mood: false,
     motivation: false,
@@ -55,7 +55,7 @@ export default function PreMoodScreen({ goTo, currentScreen }) {
     goTo("focus");
   };
 
-  // ✅ quick presets (simple + consistent)
+  // quick presets (simple + consistent)
   const setPreset = (setter, key, value) => {
     setter(value);
     setTouched((t) => ({ ...t, [key]: true }));

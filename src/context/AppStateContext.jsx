@@ -7,13 +7,15 @@ export function AppStateProvider({ children }) {
   const [goal, setGoal] = useState("");
 
   const [sessions, setSessions] = useState([]);
-
   const [preMoodData, setPreMoodData] = useState(null);
 
   const [currentFocusMinutes, setCurrentFocusMinutes] = useState(30);
   const [currentBreakMinutes, setCurrentBreakMinutes] = useState(5);
 
   const [distractions, setDistractions] = useState([]);
+
+  // Remember last custom minutes separately
+  const [lastCustomMinutes, setLastCustomMinutes] = useState("");
 
   // Load sessions on startup
   useEffect(() => {
@@ -27,7 +29,7 @@ export function AppStateProvider({ children }) {
   }, [sessions]);
 
   const addSession = (sessionObj) => {
-    setSessions((prev) => [sessionObj, ...prev]); // newest first (nicer UX)
+    setSessions((prev) => [sessionObj, ...prev]); // newest first
   };
 
   const clearCurrentFlow = () => {
@@ -36,22 +38,31 @@ export function AppStateProvider({ children }) {
   };
 
   // Load profile on startup
-useEffect(() => {
-  const savedName = sessionStorage.getItem("userName");
-  const savedGoal = sessionStorage.getItem("goal");
-  if (savedName) setUserName(savedName);
-  if (savedGoal) setGoal(savedGoal);
-}, []);
+  useEffect(() => {
+    const savedName = sessionStorage.getItem("userName");
+    const savedGoal = sessionStorage.getItem("goal");
+    const savedCustom = sessionStorage.getItem("lastCustomMinutes");
 
-// Save profile on change
-useEffect(() => {
-  sessionStorage.setItem("userName", userName);
-}, [userName]);
+    if (savedName) setUserName(savedName);
+    if (savedGoal) setGoal(savedGoal);
 
-useEffect(() => {
-  sessionStorage.setItem("goal", goal);
-}, [goal]);
+    // load remembered custom minutes
+    if (savedCustom !== null) setLastCustomMinutes(savedCustom);
+  }, []);
 
+  // Save profile on change
+  useEffect(() => {
+    sessionStorage.setItem("userName", userName);
+  }, [userName]);
+
+  useEffect(() => {
+    sessionStorage.setItem("goal", goal);
+  }, [goal]);
+
+  // Save remembered custom minutes on change
+  useEffect(() => {
+    sessionStorage.setItem("lastCustomMinutes", lastCustomMinutes);
+  }, [lastCustomMinutes]);
 
   return (
     <AppStateContext.Provider
@@ -75,6 +86,10 @@ useEffect(() => {
 
         distractions,
         setDistractions,
+
+        // expose remembered custom minutes
+        lastCustomMinutes,
+        setLastCustomMinutes,
       }}
     >
       {children}
