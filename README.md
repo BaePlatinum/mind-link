@@ -1,4 +1,4 @@
-he Smart Study Focus App is an interactive, web-based study support tool that explores whether adaptive, emotion-aware feedback can improve student focus and motivation compared to traditional static study timers. Rather than relying on fixed intervals (e.g., Pomodoro-style timers), the app adapts study session length and feedback based on users’ self-reported emotional states and observed focus patterns.
+The Smart Study Focus App is an interactive, web-based study support tool that explores whether adaptive, emotion-aware feedback can improve student focus and motivation compared to traditional static study timers. Rather than relying on fixed intervals (e.g., Pomodoro-style timers), the app adapts study session length and feedback based on users’ self-reported emotional states and observed focus patterns.
 
 Built as a research-driven prototype, the application integrates ideas from personal informatics, affective computing, and interruption management to create a more human-centered study experience. The system emphasizes supportive feedback, reflection, and personalization over rigid time enforcement.
 
