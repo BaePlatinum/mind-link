@@ -6,9 +6,11 @@ This application was built using **React** with **Vite** as the development and 
 
 ## Team Members
 
-* **[Matthew To|40005135]** 
-* **[Name 2]** 
-* **[Name 3]**
+* **[Matthew To | 40005135]** 
+* **[Samuditha Wijenarayana | 40224895]** 
+* **[Prathiksha Kandiah | 40190782]**
+* **[Melissa MacNab | 40192264]**
+* **[Eesha Patel | 40189246]**
 
 ---
 
