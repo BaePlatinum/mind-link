@@ -17,7 +17,9 @@ This application was built using **React** with **Vite** as the development and 
 ---
 
 Teaser Video
+---
 [![Teaser Video](https://img.youtube.com/vi/FMbjcdYXyGw/maxresdefault.jpg)](https://www.youtube.com/watch?v=FMbjcdYXyGw)
+
 ---
 
 ## Context
