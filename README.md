@@ -16,8 +16,7 @@ This application was built using **React** with **Vite** as the development and 
 
 ---
 
-Video Link: sha256:3b3ed07a57cbed74c710f649d61a015b86f2a089700ea96b47142ee0c1fbe8c0
-
+Video Link: https://github.com/BaePlatinum/mind-link/releases/download/Video/Video.Teaser.mp4
 ---
 
 ## Context
