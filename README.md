@@ -1,16 +1,105 @@
-# React + Vite
+Mind Link is a lightweight, front‑end prototype designed to help students structure focused study sessions. The application allows users to select a study duration, start and end sessions, and receive clear visual feedback on their progress. The project emphasizes usability, clarity, and rapid prototyping rather than production‑level backend integration.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This application was built using **React** with **Vite** as the development and build tool, allowing for fast startup times and an efficient development workflow.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features / Functions
 
-## React Compiler
+* **Mood Tracker** - Users can log their mood before and after the study session to keep track their mental state
+* **Session Length Selection** – Users can choose a specific study duration before starting a session
+* **Start / End Study Session** – Clear controls to begin and end a study period
+* **Visual Session Feedback** – Interface elements update to reflect the current session state
+* **Simple, Distraction‑Free UI** – Designed to keep the user focused on studying
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+(Additional features may be present depending on the final implementation.)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+* **React**
+* **Vite**
+* **JavaScript**
+* **HTML / CSS**
+
+---
+
+## Requirements
+
+Before running the app, ensure the following are installed:
+
+* **Node.js (LTS recommended)**
+* **npm** (included with Node.js)
+
+Verify installation:
+
+```bash
+node -v
+npm -v
+```
+
+---
+
+## Getting Started
+
+### 1. Obtain the Project
+
+* Download and unzip the submitted project folder
+
+OR
+
+* Clone the repository (if applicable):
+
+```bash
+git clone [REPOSITORY_URL]
+cd [PROJECT_FOLDER]
+```
+
+### 2. Install Dependencies
+
+From the project root directory (where `package.json` is located):
+
+```bash
+npm install
+```
+
+### 3. Run the App Locally
+
+```bash
+npm run dev
+```
+
+Vite will display a local development URL in the terminal, typically:
+
+```
+http://localhost:5173/
+```
+
+Open this URL in a web browser to test the application.
+
+---
+
+## Stopping the App
+
+To stop the development server, press:
+
+```
+Ctrl + C
+```
+
+in the terminal.
+
+---
+
+## Team Members
+
+* **[Name 1]** 
+* **[Name 2]** 
+* **[Name 3]**
+
+---
+
+## Submission Notes
+
+The submission intentionally excludes `node_modules`. All required dependencies will be installed using `npm install` as described above.
