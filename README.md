@@ -16,7 +16,7 @@ This application was built using **React** with **Vite** as the development and 
 
 ---
 
-Video Link: https://www.youtube.com/watch?v=FMbjcdYXyGw
+Video Link: [(https://img.youtube.com/vi/FMbjcdYXyGw/maxresdefault.jpg)](https://www.youtube.com/watch?v=FMbjcdYXyGw)
 ---
 
 ## Context
