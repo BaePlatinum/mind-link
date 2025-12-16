@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useAppState } from "../context/AppStateContext";
 import AppShell from "../components/AppShell";
 
@@ -8,16 +8,54 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
   const [fatigue, setFatigue] = useState(3);
   const [helpful, setHelpful] = useState(null);
 
-  const { addSession, currentFocusMinutes, preMoodData, distractions, clearCurrentFlow} = useAppState();
+  const {
+    addSession,
+    currentFocusMinutes,
+    preMoodData,
+    distractions,
+    clearCurrentFlow,
+  } = useAppState();
+
+  // ✅ One helper for the emoji label text
+  const levelText = (v) =>
+    v === 1
+      ? "😩 very low"
+      : v === 2
+      ? "😟 low"
+      : v === 3
+      ? "😐 neutral"
+      : v === 4
+      ? "🙂 high"
+      : v === 5
+      ? "🔥 very high"
+      : "";
+
+  // ✅ Nice: different labels for fatigue (optional but makes sense)
+  const fatigueText = (v) =>
+    v === 1
+      ? "😌 very low"
+      : v === 2
+      ? "🙂 low"
+      : v === 3
+      ? "😐 medium"
+      : v === 4
+      ? "😮 high"
+      : v === 5
+      ? "🥱 very high"
+      : "";
+
+  const moodHint = useMemo(() => levelText(mood), [mood]);
+  const motivationHint = useMemo(() => levelText(motivation), [motivation]);
+  const fatigueHint = useMemo(() => fatigueText(fatigue), [fatigue]);
 
   const finish = () => {
     const sessionObj = {
       id: crypto.randomUUID(),
       timestamp: Date.now(),
       focusMinutes: currentFocusMinutes,
-      preMood: preMoodData,            // ✅ store before
+      preMood: preMoodData,
       postMood: { mood, motivation, fatigue },
-      helpful,                         // ✅ evaluation signal
+      helpful,
       distractions,
     };
 
@@ -29,46 +67,95 @@ export default function PostMoodScreen({ goTo, currentScreen }) {
   return (
     <AppShell currentScreen={currentScreen} title="Wrap-up">
       <div className="screen">
-        <h2 style={{ textAlign: "center", margin: 0 }}>How do you feel now?</h2>
+        <h2 className="post-title">How do you feel now?</h2>
 
-        <label>Mood: {mood} (1 low → 5 high)</label>
-        <input type="range" min="1" max="5" value={mood}
-          onChange={(e) => setMood(Number(e.target.value))} />
+        {/* ✅ Mood */}
+        <label className="range-label">
+          <span className="range-left">Mood</span>
+          <span className="range-mid">{mood}</span>
+          <span className="range-hint">{moodHint}</span>
+        </label>
+        <input
+          type="range"
+          autoFocus
+          min="1"
+          max="5"
+          value={mood}
+          onChange={(e) => setMood(Number(e.target.value))}
+        />
 
-        <label>Motivation: {motivation} (1 low → 5 high)</label>
-        <input type="range" min="1" max="5" value={motivation}
-          onChange={(e) => setMotivation(Number(e.target.value))} />
+        {/* ✅ Motivation (FIX: was using mood before) */}
+        <label className="range-label">
+          <span className="range-left">Motivation</span>
+          <span className="range-mid">{motivation}</span>
+          <span className="range-hint">{motivationHint}</span>
+        </label>
+        <input
+          type="range"
+          autoFocus
+          min="1"
+          max="5"
+          value={motivation}
+          onChange={(e) => setMotivation(Number(e.target.value))}
+        />
 
-        <label>Fatigue: {fatigue} (1 low → 5 high)</label>
-        <input type="range" min="1" max="5" value={fatigue}
-          onChange={(e) => setFatigue(Number(e.target.value))} />
+        {/* ✅ Fatigue (FIX: was using mood before) */}
+        <label className="range-label">
+          <span className="range-left">Fatigue</span>
+          <span className="range-mid">{fatigue}</span>
+          <span className="range-hint">{fatigueHint}</span>
+        </label>
+        <input
+          type="range"
+          autoFocus
+          min="1"
+          max="5"
+          value={fatigue}
+          onChange={(e) => setFatigue(Number(e.target.value))}
+        />
 
-        <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+        {/* ✅ Helpful / Not helpful + Finish */}
+        <div className="post-actions">
+          <div className="helpful-row">
+            <button
+              type="button"
+              className={`choice-btn ${helpful === true ? "active" : ""}`}
+              onClick={() => setHelpful(true)}
+            >
+              Helpful
+            </button>
+
+            <button
+              type="button"
+              className={`choice-btn ${helpful === false ? "active" : ""}`}
+              onClick={() => setHelpful(false)}
+            >
+              Not helpful
+            </button>
+          </div>
+
           <button
-            onClick={() => setHelpful(true)}
-            style={{
-              background: helpful === true ? "#2f6df6" : "#fff",
-              color: helpful === true ? "#fff" : "#111",
-              border: "1px solid #d7dbe3",
-            }}
+            type="button"
+            className="finish-btn"
+            onClick={finish}
+            disabled={helpful === null}
           >
-            Helpful
+            Finish Session
           </button>
-          <button
-            onClick={() => setHelpful(false)}
-            style={{
-              background: helpful === false ? "#2f6df6" : "#fff",
-              color: helpful === false ? "#fff" : "#111",
-              border: "1px solid #d7dbe3",
-            }}
-          >
-            Not helpful
-          </button>
+
+          {helpful === null && (
+            <div
+              style={{
+                textAlign: "center",
+                fontSize: 13,
+                opacity: 0.75,
+                marginTop: 8,
+              }}
+            >
+              Please select <b>Helpful</b> or <b>Not helpful</b> to finish.
+            </div>
+          )}
         </div>
-
-        <button onClick={finish} disabled={helpful === null}>
-          Finish Session
-        </button>
       </div>
     </AppShell>
   );
