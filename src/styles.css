@@ -1,15 +1,27 @@
 /* =========================
-   Neutral Gray Theme Tokens
+   Soft Academic Blue Tokens
    ========================= */
 :root {
-  --bg-main: #f3f4f6;        /* page background */
-  --bg-card: #ffffff;        /* cards */
-  --bg-muted: #f9fafb;       /* subtle panels/inputs */
-  --border-soft: #e5e7eb;    /* dividers */
-  --text-main: #1f2937;      /* primary text */
-  --text-muted: #6b7280;     /* secondary text */
-  --accent-soft: #9ca3af;    /* neutral accent */
-  --accent-active: #6b7280;  /* focus/active */
+  --bg-main: #e3e9f2;        /* slightly darker blue background */
+  --bg-card: #ffffff;
+  --bg-muted: #f4f7fb;
+  --border-soft: #d0d7e2;
+
+  --text-main: #333;
+  --text-strong: #1a1a1a;
+
+  /* Muted academic blues (less bright than before) */
+  --blue-main: #5b7fc7;
+  --blue-dark: #4869b2;
+  --blue-soft: #e8eef9;
+
+  /* Softer red for danger */
+  --red-main: #c24141;
+  --red-dark: #a63636;
+
+  /* Neutral grays for secondary UI */
+  --gray-100: #f8fafc;
+  --gray-200: #e1e5ee;
 }
 
 /* Global Styles */
@@ -17,7 +29,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', Arial, sans-serif;
-  background: var(--bg-main); /* soft neutral gray background */
+  background: var(--bg-main); /* was #eef2f7 */
   color: var(--text-main);
 }
 
@@ -29,8 +41,7 @@ body {
   padding: 32px;
   background: var(--bg-card);
   border-radius: 24px; /* rounded edges */
-  border: 1px solid var(--border-soft);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06); /* softer neutral shadow */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* modern soft shadow */
   transition: 0.25s ease;
 }
 
@@ -38,7 +49,7 @@ body {
 .screen h1, .screen h2 {
   text-align: center;
   margin-bottom: 24px;
-  color: var(--text-main);
+  color: var(--text-strong);
   letter-spacing: -0.5px;
 }
 
@@ -48,19 +59,18 @@ input, textarea {
   padding: 14px 16px;
   margin-top: 8px;
   margin-bottom: 18px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--border-soft); /* was #d0d7e2 */
   border-radius: 14px; /* modern round input fields */
   font-size: 1rem;
-  background: var(--bg-muted);
-  color: var(--text-main);
-  transition: border 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  background: var(--bg-muted); /* was #f8fafc */
+  transition: border 0.2s ease, background 0.2s ease;
 }
 
 input:focus, textarea:focus {
   outline: none;
-  border-color: var(--accent-active);
+  border-color: var(--blue-main); /* was bright #7ba7ff */
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.25);
+  box-shadow: 0 0 0 3px rgba(91, 127, 199, 0.25); /* softer */
 }
 
 /* Buttons */
@@ -73,22 +83,20 @@ button {
   border: none;
   border-radius: 14px; /* modern round buttons */
   cursor: pointer;
-  background: #e5e7eb; /* neutral gray */
-  color: var(--text-main);
+  background: linear-gradient(135deg, var(--blue-main), var(--blue-dark)); /* was brighter */
+  color: white;
   transition: 0.25s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 14px rgba(72, 105, 178, 0.25); /* softened */
 }
 
 button:hover {
   transform: translateY(-2px);
-  background: #d1d5db;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  box-shadow: 0 6px 18px rgba(72, 105, 178, 0.35);
 }
 
 button:active {
   transform: translateY(0);
-  background: #c7cdd6;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 10px rgba(72, 105, 178, 0.2);
 }
 
 /* Sliders */
@@ -97,7 +105,7 @@ input[type="range"] {
   width: 100%;
   height: 8px;
   border-radius: 8px;
-  background: #e5e7eb;
+  background: #dce3ee;
   outline: none;
   margin: 10px 0 24px 0;
 }
@@ -106,7 +114,7 @@ input[type="range"]::-webkit-slider-thumb {
   appearance: none;
   width: 22px;
   height: 22px;
-  background: #9ca3af; /* neutral thumb */
+  background: var(--blue-main);
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -114,16 +122,16 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  background: #6b7280;
+  background: var(--blue-dark);
 }
 
 /* Session Cards (Dashboard) */
 .session-card {
-  background: var(--bg-card);
+  background: white;
   padding: 18px;
   margin-bottom: 14px;
   border-radius: 18px; /* rounded cards */
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--gray-200);
   box-shadow: 0 4px 14px rgba(0,0,0,0.05);
   transition: 0.2s ease;
 }
@@ -138,12 +146,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
   text-align: center;
   font-size: 3.5rem;
   font-weight: 600;
-  color: var(--text-main);
+  color: #2F2F2F;
   margin: 20px 0 30px 0;
   padding: 20px;
-  background: var(--bg-muted);
+  background: var(--bg-muted); /* was #f7faff */
   border-radius: 20px;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--border-soft); /* was #d5dff1 */
 }
 
 /* AppShell layout (high fidelity shell) */
@@ -154,14 +162,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
   justify-content:center;
   padding:24px;
 }
-
 .app-card{
   width:min(920px, 92vw);
   background: var(--bg-card);
   border-radius:24px;
   padding:28px;
-  border: 1px solid var(--border-soft);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 32px rgba(0,0,0,0.10);
 }
 
 /* Optional title used by AppShell */
@@ -187,7 +193,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border:1px solid var(--border-soft);
   background:#fff;
   font-size:12px;
-  color: var(--text-main);
 }
 .step-num{
   width:18px;
@@ -200,30 +205,29 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border:1px solid var(--border-soft);
 }
 .step.active{
-  background: #e5e7eb;
-  border-color: var(--border-soft);
-  color: var(--text-main);
+  background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
+  border-color: transparent;
+  color: #fff;
 }
 .step.active .step-num{
-  border-color: rgba(31,41,55,0.25);
+  border-color: rgba(255,255,255,0.65);
 }
 .step.done{
-  background:#f3f4f6;
+  background: var(--blue-soft); /* was #e8f0ff */
 }
 
 /* When using AppShell, avoid double-card look */
 .app-card .screen{
   background: transparent;
   box-shadow: none;
-  border: none;
   margin: 0 auto;
   padding: 0;
   max-width: 560px;
 }
 
 .info-card{
-  background: var(--bg-muted);
-  border:1px solid var(--border-soft);
+  background: var(--bg-muted); /* was #f7faff */
+  border:1px solid var(--border-soft); /* was #d5dff1 */
   border-radius:18px;
   padding:14px 16px;
 }
@@ -232,12 +236,10 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-weight:700;
   opacity:0.8;
   margin-bottom:6px;
-  color: var(--text-muted);
 }
 .info-value{
   font-size:16px;
   font-weight:600;
-  color: var(--text-main);
 }
 
 .btn-row{
@@ -247,7 +249,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .secondary{
   background:#fff !important;
-  color: var(--text-main) !important;
+  color:#111 !important;
   border:1px solid var(--border-soft) !important;
   box-shadow:none !important;
 }
@@ -263,7 +265,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   padding:10px 12px !important;
   border-radius:999px !important;
   background:#fff !important;
-  color: var(--text-main) !important;
+  color:#111 !important;
   border:1px solid var(--border-soft) !important;
   box-shadow:none !important;
   font-weight:600;
@@ -273,8 +275,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .chip.selected{
-  background: #d1d5db !important;
-  color: var(--text-main) !important;
+  background: linear-gradient(135deg, var(--blue-main), var(--blue-dark)) !important;
+  color: white !important;
   border-color: transparent !important;
 }
 
@@ -283,17 +285,15 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-size: 0.95rem;
   opacity: 0.85;
   margin-top: 20px;
-  color: var(--text-muted);
 }
 
-/* Keep danger as red for clarity, but soften the intensity slightly */
+/* Softer danger */
 .danger{
-  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.20) !important;
-  color: #fff !important;
+  background: linear-gradient(135deg, var(--red-main), var(--red-dark)) !important;
+  box-shadow: 0 4px 14px rgba(194, 65, 65, 0.22) !important;
 }
 .danger:hover{
-  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.28) !important;
+  box-shadow: 0 6px 18px rgba(194, 65, 65, 0.30) !important;
 }
 
 .info-value{
@@ -302,7 +302,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .paused{
-  border: 2px dashed var(--accent-soft);
+  border: 2px dashed var(--blue-main); /* was #7ba7ff */
 }
 
 .timer{
@@ -331,7 +331,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .dash-kicker{
   font-size: 0.9rem;
   opacity: 0.75;
-  color: var(--text-muted);
 }
 
 .dash-name{
@@ -347,8 +346,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .stat-card{
-  background: var(--bg-card);
-  border:1px solid var(--border-soft);
+  background:#ffffff;
+  border:1px solid var(--gray-200);
   border-radius:18px;
   padding:14px 16px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.05);
@@ -358,14 +357,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-size: 0.85rem;
   opacity: 0.75;
   font-weight: 700;
-  color: var(--text-muted);
 }
 
 .stat-value{
   font-size: 1.4rem;
   font-weight: 800;
   margin-top: 6px;
-  color: var(--text-main);
 }
 
 .dash-section-title{
@@ -384,8 +381,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .session-meta{
   font-size: 0.85rem;
   opacity: 0.75;
-  margin: 600px 0; /* kept as-is from your file */
-  color: var(--text-muted);
+  margin: 600px 0;
 }
 
 .session-focus{
@@ -394,14 +390,14 @@ input[type="range"]::-webkit-slider-thumb:hover {
   margin: 6px 0 10px 0;
 }
 
-/* Mood colors: keep meaning, reduce saturation */
-.mood-positive{ color: #374151; }
+/* Keep meaning colors (unchanged) */
+.mood-positive{ color: #2f6df6; }
 .mood-neutral{ color: #6b7280; }
-.mood-negative{ color: #7f1d1d; }
+.mood-negative{ color: #b42318; }
 
 /* Highlight today's sessions */
 .session-card.today{
-  border-left: 4px solid var(--accent-soft);
+  border-left: 4px solid var(--blue-main); /* was bright */
 }
 
 /* Tighter spacing inside cards */
@@ -449,25 +445,25 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-size:0.85rem;
   font-weight:700;
   opacity:0.95;
-  color: var(--text-main);
 }
 
+/* Make pill-blue less bright, keep semantics */
 .pill-blue{
-  background:#f3f4f6;
-  border-color: var(--border-soft);
+  background: var(--blue-soft);
+  border-color: #cfe0ff;
 }
 
 .pill-green{
-  background:#f3f4f6;
-  border-color: var(--border-soft);
+  background:#ecfdf3;
+  border-color:#a7f3d0;
 }
 
 .pill-red{
-  background:#f3f4f6;
-  border-color: var(--border-soft);
+  background:#fef2f2;
+  border-color:#fecaca;
 }
 
-/* Bar chart (keep structure, neutralize color) */
+/* Bar chart */
 .bar-chart {
   display: flex;
   align-items: flex-end;
@@ -486,7 +482,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .bar {
   width: 18px;
   border-radius: 6px 6px 0 0;
-  background: #9ca3af;
+  background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
   transition: height 0.3s ease;
 }
 
@@ -494,10 +490,8 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-size: 0.75rem;
   margin-top: 6px;
   opacity: 0.75;
-  color: var(--text-muted);
 }
 
-/* Duplicate bar-chart block in your file (kept, but neutralized) */
 .bar-chart{
   display:flex;
   align-items:flex-end;
@@ -518,19 +512,17 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .bar{
   width:22px;
   border-radius:10px;
-  background: #9ca3af;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+  background: linear-gradient(135deg, var(--blue-main), var(--blue-dark));
+  box-shadow: 0 6px 14px rgba(72, 105, 178, 0.22); /* softened */
 }
 
 .bar-label{
   font-size:12px;
   opacity:0.75;
-  color: var(--text-muted);
 }
 
 .bar-minutes{
   font-size:12px;
   font-weight:700;
   opacity:0.65;
-  color: var(--text-muted);
 }
