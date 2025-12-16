@@ -4,6 +4,14 @@ This application was built using **React** with **Vite** as the development and 
 
 ---
 
+## Team Members
+
+* **[Matthew To|40005135]** 
+* **[Name 2]** 
+* **[Name 3]**
+
+---
+
 ## Key Features / Functions
 
 * **Mood Tracker** - Users can log their mood before and after the study session to keep track their mental state
@@ -92,13 +100,6 @@ in the terminal.
 
 ---
 
-## Team Members
-
-* **[Name 1]** 
-* **[Name 2]** 
-* **[Name 3]**
-
----
 
 ## Submission Notes
 
